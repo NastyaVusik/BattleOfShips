@@ -59,4 +59,45 @@ public class BattleshipGame extends JFrame {
             }
         }
     }
+
+    private void playerAttack(int x, int y) {
+        if (enemyShips[x][y]) {
+            enemyGrid[x][y].setBackground(Color.RED);
+            enemyShips[x][y] = false;
+            enemyShipsLeft--;
+        } else {
+            enemyGrid[x][y].setBackground(Color.GRAY);
+        }
+        enemyTurn();
+        checkWin();
+    }
+
+
+    private void enemyTurn() {
+        int x, y;
+        do {
+            x = random.nextInt(GRID_SIZE);
+            y = random.nextInt(GRID_SIZE);
+        } while (!playerGrid[x][y].isEnabled());
+
+        if (playerShips[x][y]) {
+            playerGrid[x][y].setBackground(Color.RED);
+            playerShips[x][y] = false;
+            playerShipsLeft--;
+        } else {
+            playerGrid[x][y].setBackground(Color.GRAY);
+        }
+        playerGrid[x][y].setEnabled(false);
+        checkWin();
+    }
+
+    private void checkWin() {
+        if (enemyShipsLeft == 0) {
+            JOptionPane.showMessageDialog(this, "You win!");
+            System.exit(0);
+        } else if (playerShipsLeft == 0) {
+            JOptionPane.showMessageDialog(this, "You lose!");
+            System.exit(0);
+        }
+    }
 }
